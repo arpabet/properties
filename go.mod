@@ -1,3 +1,3 @@
-module github.com/codeallergy/properties
+module go.arpabet.com/properties
 
 go 1.17
