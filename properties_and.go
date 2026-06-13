@@ -10,6 +10,6 @@ package properties
 
 import "path/filepath"
 
-func AppDataDir(companyName, appName string) string {
-	return filepath.Join("/data", "data", companyName, appName)
+func AppDataDir(companyName, appName string) (string, error) {
+	return filepath.Join("/data", "data", companyName, appName), nil
 }

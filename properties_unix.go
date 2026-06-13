@@ -1,5 +1,6 @@
+// +build linux openbsd freebsd netbsd
+// +build !android
 // +build !ci
-// +build !mobile,!ios
 
 /*
  * Copyright (c) 2025 Karagatan LLC.
@@ -18,6 +19,5 @@ func AppDataDir(companyName, appName string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(homeDir, "Library", "Application Support", companyName, appName), nil
+	return filepath.Join(homeDir, ".config", companyName, appName), nil
 }
-

@@ -33,17 +33,24 @@ func Locate(companyName string) CompanyData {
 }
 
 func (t *implCompanyData) MakeDir(appName string) (string, error) {
-	dir := AppDataDir(t.companyName, appName)
-	err := os.MkdirAll(dir, 0700)
+	dir, err := AppDataDir(t.companyName, appName)
+	if err != nil {
+		return "", err
+	}
+	err = os.MkdirAll(dir, 0700)
 	return dir, err
 }
 
 func (t *implCompanyData) GetDir(appName string) string {
-	return AppDataDir(t.companyName, appName)
+	dir, _ := AppDataDir(t.companyName, appName)
+	return dir
 }
 
 func (t *implCompanyData) LoadJsonFile(appName, fileName string, v interface{}) (bool, error) {
-	dir := AppDataDir(t.companyName, appName)
+	dir, err := AppDataDir(t.companyName, appName)
+	if err != nil {
+		return false, err
+	}
 	fullPath := filepath.Join(dir, fileName)
 	if _, err := os.Stat(fullPath); os.IsNotExist(err) {
 		return false, nil

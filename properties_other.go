@@ -7,6 +7,8 @@
 
 package properties
 
-func AppDataDir(companyName, appName string) string {
-	return filepath.Join("/tmp", companyName, appName)
+import "path/filepath"
+
+func AppDataDir(companyName, appName string) (string, error) {
+	return filepath.Join("/tmp", companyName, appName), nil
 }

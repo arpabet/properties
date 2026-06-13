@@ -13,7 +13,10 @@ import (
 	"path/filepath"
 )
 
-func AppDataDir(companyName, appName string) string {
-	homeDir, _ := os.UserHomeDir()
-	return filepath.Join(homeDir, "Library", "Preferences", companyName, appName)
+func AppDataDir(companyName, appName string) (string, error) {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		return "", err
+	}
+	return filepath.Join(homeDir, "Library", "Application Support", companyName, appName), nil
 }
