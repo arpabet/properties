@@ -7,21 +7,18 @@ package properties
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 )
 
 type CompanyData interface {
-
 	MakeDir(appName string) (string, error)
 
 	GetDir(appName string) string
 
-	LoadJsonFile(appName, fileName string, v interface{}) (bool, error)
+	LoadJsonFile(appName, fileName string, v any) (bool, error)
 
-	SaveJsonFile(appName, fileName string, v interface{}) error
-
+	SaveJsonFile(appName, fileName string, v any) error
 }
 
 type implCompanyData struct {
@@ -46,7 +43,7 @@ func (t *implCompanyData) GetDir(appName string) string {
 	return dir
 }
 
-func (t *implCompanyData) LoadJsonFile(appName, fileName string, v interface{}) (bool, error) {
+func (t *implCompanyData) LoadJsonFile(appName, fileName string, v any) (bool, error) {
 	dir, err := AppDataDir(t.companyName, appName)
 	if err != nil {
 		return false, err
@@ -55,7 +52,7 @@ func (t *implCompanyData) LoadJsonFile(appName, fileName string, v interface{}) 
 	if _, err := os.Stat(fullPath); os.IsNotExist(err) {
 		return false, nil
 	}
-	blob, err := ioutil.ReadFile(fullPath)
+	blob, err := os.ReadFile(fullPath)
 	if err != nil {
 		return false, err
 	}
@@ -63,7 +60,7 @@ func (t *implCompanyData) LoadJsonFile(appName, fileName string, v interface{}) 
 	return err == nil, err
 }
 
-func (t *implCompanyData) SaveJsonFile(appName, fileName string, v interface{}) error {
+func (t *implCompanyData) SaveJsonFile(appName, fileName string, v any) error {
 	blob, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -72,5 +69,5 @@ func (t *implCompanyData) SaveJsonFile(appName, fileName string, v interface{}) 
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(filepath.Join(dir, fileName), blob, 0660)
+	return os.WriteFile(filepath.Join(dir, fileName), blob, 0660)
 }

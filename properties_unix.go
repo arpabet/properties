@@ -1,6 +1,4 @@
-// +build linux openbsd freebsd netbsd
-// +build !android
-// +build !ci
+//go:build (linux || openbsd || freebsd || netbsd) && !android && !ci
 
 /*
  * Copyright (c) 2025 Karagatan LLC.

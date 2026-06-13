@@ -1,5 +1,4 @@
-// +build !ci
-// +build darwin,ios
+//go:build !ci && darwin && ios
 
 /*
  * Copyright (c) 2025 Karagatan LLC.

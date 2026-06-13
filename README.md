@@ -6,6 +6,8 @@ loading and saving JSON files.
 
 ## Install
 
+Requires Go 1.25 or later.
+
 ```bash
 go get go.arpabet.com/properties
 ```
@@ -66,11 +68,11 @@ type CompanyData interface {
 
 	// LoadJsonFile reads and unmarshals fileName into v.
 	// The bool reports whether the file existed; a missing file is not an error.
-	LoadJsonFile(appName, fileName string, v interface{}) (bool, error)
+	LoadJsonFile(appName, fileName string, v any) (bool, error)
 
 	// SaveJsonFile marshals v to JSON and writes it to fileName,
 	// creating the app data directory if necessary.
-	SaveJsonFile(appName, fileName string, v interface{}) error
+	SaveJsonFile(appName, fileName string, v any) error
 }
 ```
 
@@ -85,6 +87,17 @@ The directory is `<base>/<companyName>/<appName>`, where `<base>` is:
 | Linux / *BSD        | `~/.config`                          |
 | Android (`mobile`)  | `/data/data`                         |
 | Other / fallback    | `/tmp`                               |
+
+## Testing
+
+The platform files are guarded by build constraints, including a `ci` tag that
+selects a deterministic temporary-directory backend (`/tmp/<company>/<app>`).
+This keeps the test suite hermetic — it never touches a real per-user data
+directory regardless of the host OS:
+
+```bash
+make test          # runs: go test -tags ci -cover ./...
+```
 
 ## License
 

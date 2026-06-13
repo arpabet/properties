@@ -1,5 +1,4 @@
-// +build !ci
-// +build android mobile
+//go:build !ci && (android || mobile)
 
 /*
  * Copyright (c) 2025 Karagatan LLC.

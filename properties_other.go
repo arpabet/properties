@@ -1,4 +1,4 @@
-// +build ci !linux,!darwin,!windows,!freebsd,!openbsd,!netbsd
+//go:build ci || (!linux && !darwin && !windows && !freebsd && !openbsd && !netbsd)
 
 /*
  * Copyright (c) 2025 Karagatan LLC.

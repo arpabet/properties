@@ -1,5 +1,4 @@
-// +build !ci
-// +build !mobile,!android,!ios
+//go:build !ci && !mobile && !android && !ios
 
 /*
  * Copyright (c) 2025 Karagatan LLC.
@@ -20,4 +19,3 @@ func AppDataDir(companyName, appName string) (string, error) {
 	}
 	return filepath.Join(homeDir, "AppData", "Roaming", companyName, appName), nil
 }
-
