@@ -3,6 +3,11 @@
  * SPDX-License-Identifier: BUSL-1.1
  */
 
+// Package properties locates a per-user, per-company application data directory
+// across desktop and mobile platforms and provides convenience helpers for
+// loading and saving JSON files within it. The resolved directory is
+// <base>/<companyName>/<appName>, where <base> depends on the operating system
+// (see AppDataDir).
 package properties
 
 import (
@@ -11,13 +16,22 @@ import (
 	"path/filepath"
 )
 
+// CompanyData resolves and manages the data directory for a single company,
+// scoped to individual applications by appName.
 type CompanyData interface {
+
+	// MakeDir creates the app data directory (if needed) and returns its path.
 	MakeDir(appName string) (string, error)
 
+	// GetDir returns the app data directory path without creating it.
 	GetDir(appName string) string
 
+	// LoadJsonFile reads and unmarshals fileName into v. The bool reports
+	// whether the file existed; a missing file is not an error.
 	LoadJsonFile(appName, fileName string, v any) (bool, error)
 
+	// SaveJsonFile marshals v to JSON and writes it to fileName, creating the
+	// app data directory if necessary.
 	SaveJsonFile(appName, fileName string, v any) error
 }
 
@@ -25,6 +39,8 @@ type implCompanyData struct {
 	companyName string
 }
 
+// Locate returns a CompanyData rooted at the given company name. It performs no
+// I/O; the directory is resolved lazily by the returned value's methods.
 func Locate(companyName string) CompanyData {
 	return &implCompanyData{companyName: companyName}
 }

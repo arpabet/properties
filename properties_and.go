@@ -9,6 +9,7 @@ package properties
 
 import "path/filepath"
 
+// AppDataDir resolves the data directory under the Android /data/data base.
 func AppDataDir(companyName, appName string) (string, error) {
 	return filepath.Join("/data", "data", companyName, appName), nil
 }

@@ -12,6 +12,8 @@ import (
 	"path/filepath"
 )
 
+// AppDataDir resolves the data directory under the Windows ~/AppData/Roaming
+// base.
 func AppDataDir(companyName, appName string) (string, error) {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {

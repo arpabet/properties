@@ -12,6 +12,8 @@ import (
 	"path/filepath"
 )
 
+// AppDataDir resolves the data directory under the ~/.config base on Linux and
+// the BSDs.
 func AppDataDir(companyName, appName string) (string, error) {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
